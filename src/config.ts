@@ -1,7 +1,14 @@
 import dotenv from 'dotenv';
+import path from 'path';
 
-// Load environment variables from .env file
-dotenv.config();
+// Determine which .env file to load based on NODE_ENV
+const envFilePath =
+    process.env.NODE_ENV === 'production'
+        ? path.resolve(__dirname, '../.env.production')
+        : path.resolve(__dirname, '../.env.development');
 
-// Export your environment variables for easy access
+// Load the environment variables from the appropriate .env file
+dotenv.config({ path: envFilePath });
+
+// Export the PORT variable
 export const PORT = process.env.PORT ?? 3000;
