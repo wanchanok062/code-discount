@@ -1,0 +1,32 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs
+*.log
+logs/*.log
+
+# Environment Variables
+.env
+
+# TypeScript
+*.tsbuildinfo
+
+# Build Output
+dist/
+build/
+
+# Optional npm cache directory
+.npm/
+
+# Local Environment Settings
+.idea/
+.DS_Store
+*.local
+
+# OS-specific files
+Thumbs.db
+.DS_Store
