@@ -11,6 +11,9 @@ logs/*.log
 
 # Environment Variables
 .env
+.env.development
+.env.test
+.env.production
 
 # TypeScript
 *.tsbuildinfo
