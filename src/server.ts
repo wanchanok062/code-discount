@@ -1,19 +1,27 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import { PORT } from './config';
 import { sequelize } from './config/database';
-const app = express();
-app.use(express.json());
+import morgan from 'morgan';
+import {
+    logShowServerDetial,
+    logShowDatabaseStatus,
+} from './utility/log-table-server-detial';
+import cors from 'cors';
+import helmet from 'helmet';
+import routes from './api/router';
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello, TypeScript with Express!');
-});
+const app = express();
+app.use(cors());
+app.use(morgan('dev'));
+app.use(helmet());
+app.use(express.json());
+app.use(routes);
 
 async function initialize() {
     try {
         await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
         await sequelize.sync();
-        console.log('Database synced');
+        logShowDatabaseStatus();
     } catch (error) {
         console.error('Unable to connect to the database:', error);
     }
@@ -22,7 +30,7 @@ async function initialize() {
 initialize();
 
 app.listen(PORT, () => {
-    console.log(
-        `Server is running on http://localhost:${PORT} Mode ${process.env.NODE_ENV}`,
-    );
+    const mode = process.env.NODE_ENV;
+    const port = PORT;
+    logShowServerDetial(Number(port), String(mode));
 });
