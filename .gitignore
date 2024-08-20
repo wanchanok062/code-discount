@@ -8,6 +8,7 @@ yarn-error.log*
 logs
 *.log
 logs/*.log
+package-lock.json
 
 # Environment Variables
 .env
