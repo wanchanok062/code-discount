@@ -13,7 +13,6 @@ export const logShowServerDetial = (port: number, mode: string) => {
 
 export const logShowDatabaseStatus = () => {
     const tableData = [['Status', 'Database connected And synced Success']];
-
     const output = table(tableData, config);
     console.log(output);
 };
