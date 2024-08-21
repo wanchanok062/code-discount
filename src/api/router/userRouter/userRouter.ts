@@ -1,7 +1,7 @@
 // routes/userRoutes.ts
 import { Router } from 'express';
 import { userController } from '../../controller/userController/userController';
-import { userValidation } from '../../validation/userValidation';
+import { userValidation } from '../../validation/userValidations/userValidation';
 import handleValidationErrors from '../../../middlewares/handleValidationErrors';
 
 const router = Router();

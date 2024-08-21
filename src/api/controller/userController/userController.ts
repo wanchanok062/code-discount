@@ -1,22 +1,28 @@
 import { Request, Response } from 'express';
+import { success, fail } from '../../../utility/responseHandler';
 
 class UserController {
     async getUser(req: Request, res: Response): Promise<void> {
         try {
             const message: string = 'Hello';
-            res.status(200).json({ message });
+            success(res, 200, true, 'User fetched successfully', { message });
         } catch (error) {
             console.error('Error fetching user:', error);
-            res.status(500).json({ error: 'Something went wrong' });
+            fail(res, 400, false, 'All fields are required');
         }
     }
     async createUser(req: Request, res: Response): Promise<Response> {
         try {
             const { Fname, Lname, email, password } = req.body;
-            return res.status(201).json({ Fname, Lname, email, password });
+            return success(res, 200, true, 'User fetched successfully', {
+                Fname,
+                Lname,
+                email,
+                password,
+            });
         } catch (error) {
             console.error('Error creating user:', error);
-            return res.status(500).json({ error: 'Something went wrong' });
+            return fail(res, 400, false, 'All fields are required');
         }
     }
 }
