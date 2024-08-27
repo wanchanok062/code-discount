@@ -13,8 +13,9 @@ class UserController {
     }
     async createUser(req: Request, res: Response): Promise<Response> {
         try {
-            const { Fname, Lname, email, password } = req.body;
-            return success(res, 200, true, 'User fetched successfully', {
+            const { userName, Fname, Lname, email, password } = req.body;
+            return success(res, 200, true, 'Create user successfully', {
+                userName,
                 Fname,
                 Lname,
                 email,

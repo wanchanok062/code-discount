@@ -22,12 +22,10 @@ export const fail = (
     success: boolean,
     message: string,
     data: ResponseData = {},
-    error: string | null = null,
 ): Response => {
     return res.status(statusCode).json({
         success,
         message,
         data,
-        error,
     });
 };
