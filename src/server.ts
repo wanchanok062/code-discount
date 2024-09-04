@@ -10,9 +10,15 @@ import cors from 'cors';
 import helmet from 'helmet';
 import routes from './api/router';
 
+const mode = process.env.NODE_ENV;
 const app = express();
+
 app.use(cors());
-app.use(morgan('dev'));
+app.use(
+    morgan(
+        ':remote-addr :method :url :status :res[content-length] - :response-time ms',
+    ),
+);
 app.use(helmet());
 app.use(express.json());
 app.use(routes);
@@ -21,16 +27,18 @@ async function initialize() {
     try {
         await sequelize.authenticate();
         await sequelize.sync();
-        logShowDatabaseStatus();
+        logShowDatabaseStatus(String(mode));
     } catch (error) {
         console.error('Unable to connect to the database:', error);
     }
 }
 
-initialize();
+if (process.env.NODE_ENV !== 'test') {
+    initialize().then(() => {
+        app.listen(PORT, () => {
+            logShowServerDetial(Number(PORT), String(mode));
+        });
+    });
+}
 
-app.listen(PORT, () => {
-    const mode = process.env.NODE_ENV;
-    const port = PORT;
-    logShowServerDetial(Number(port), String(mode));
-});
+export default app;

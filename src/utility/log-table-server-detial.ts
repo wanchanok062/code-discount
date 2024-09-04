@@ -1,18 +1,18 @@
-import { table, getBorderCharacters } from 'table';
-const config = {
-    border: getBorderCharacters('norc'), // Simplified border style
-};
+import chalk from 'chalk';
 export const logShowServerDetial = (port: number, mode: string) => {
-    const tableData = [
-        ['Host', 'Mode', 'Port'],
-        [`http://localhost`, mode ?? 'development', port],
-    ];
-    const output = table(tableData, config);
-    console.log(output);
+    console.log(
+        chalk.bgWhiteBright.black(
+            ` ${mode} ${chalk.bgYellowBright.black(` Runing In `)}`,
+        ),
+        `http://localhost:${port}`,
+    );
 };
 
-export const logShowDatabaseStatus = () => {
-    const tableData = [['Status', 'Database connected And synced Success']];
-    const output = table(tableData, config);
-    console.log(output);
+export const logShowDatabaseStatus = (mode: string) => {
+    console.log(
+        chalk.bgWhiteBright.black(
+            ` ${mode} ${chalk.bgGreenBright.black(` Database `)}`,
+        ),
+        'Database connected And synced Success.',
+    );
 };

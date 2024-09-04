@@ -4,8 +4,13 @@ import { success, fail } from '../../../utility/responseHandler';
 class UserController {
     async getUser(req: Request, res: Response): Promise<void> {
         try {
-            const message: string = 'Hello';
-            success(res, 200, true, 'User fetched successfully', { message });
+            const user = {
+                userName: 'John Doe',
+                Fname: 'John',
+                Lname: 'Doe',
+                email: 'anva@gmail.com',
+            };
+            success(res, 200, true, 'User fetched successfully', user);
         } catch (error) {
             console.error('Error fetching user:', error);
             fail(res, 400, false, 'All fields are required');
