@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { adminController } from '../controller/admin/adminController';
+import { adminController } from '../controller/admin/admin-controller';
 import { validate } from '../../middlewares/validate';
 import { userSchema } from '../validations/userValidation';
 import { validateToken } from '../../middlewares/authMiddleware';
 
-const router = Router();
+const adminRouter = Router();
 
-router.get('/role', adminController.getRoles);
+adminRouter.get('/role', adminController.getRoles);
 // router.post('/', validate(userSchema), userController.createUser);
 
-export default router;
+export default adminRouter;

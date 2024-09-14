@@ -4,7 +4,9 @@ import { Role } from '../../../models/role';
 class AdminController {
     async getRoles(req: Request, res: Response): Promise<void> {
         try {
-            const roles = await Role.findAll();
+            const roles = await Role.findAll({
+                attributes: ['role_id', 'role_name'],
+            });
             success(res, 200, true, 'Fetched all role successfully', roles);
         } catch (error) {
             console.error('Error fetching role :', error);
