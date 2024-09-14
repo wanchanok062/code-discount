@@ -1,14 +1,12 @@
 import express from 'express';
 import { PORT } from './config';
-import { sequelize } from './config/database';
+import { initDatabase } from './config/database';
 import morgan from 'morgan';
-import {
-    logShowServerDetial,
-    logShowDatabaseStatus,
-} from './utility/log-table-server-detial';
+import { logShowServerDetial } from './utility/log-table-server-detial';
 import cors from 'cors';
 import helmet from 'helmet';
 import routes from './api/router';
+import 'reflect-metadata';
 
 const mode = process.env.NODE_ENV;
 const app = express();
@@ -25,9 +23,7 @@ app.use(routes);
 
 async function initialize() {
     try {
-        await sequelize.authenticate();
-        await sequelize.sync();
-        logShowDatabaseStatus(String(mode));
+        await initDatabase(String(mode));
     } catch (error) {
         console.error('Unable to connect to the database:', error);
     }

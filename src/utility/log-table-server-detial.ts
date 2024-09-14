@@ -2,7 +2,7 @@ import chalk from 'chalk';
 export const logShowServerDetial = (port: number, mode: string) => {
     console.log(
         chalk.bgWhiteBright.black(
-            ` ${mode} ${chalk.bgYellowBright.black(` Runing In `)}`,
+            ` ${mode} ${chalk.bgGreenBright.black(` Runing In `)}`,
         ),
         `http://localhost:${port}`,
     );
