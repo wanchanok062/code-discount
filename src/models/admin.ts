@@ -3,9 +3,10 @@ import {
     Column,
     Model,
     PrimaryKey,
-    AutoIncrement,
     ForeignKey,
     BelongsTo,
+    BeforeCreate,
+    DataType,
 } from 'sequelize-typescript';
 import { Role } from './role';
 
@@ -15,8 +16,7 @@ import { Role } from './role';
 })
 export class Admin extends Model {
     @PrimaryKey
-    @AutoIncrement
-    @Column
+    @Column(DataType.BIGINT)
     admin_id!: number;
 
     @Column
@@ -37,6 +37,23 @@ export class Admin extends Model {
 
     @BelongsTo(() => Role)
     role!: Role;
+
+    @BeforeCreate
+    static async generateAdminId(instance: Admin) {
+        const prefix = 65;
+        const lastAdmin = await Admin.findOne({
+            order: [['admin_id', 'DESC']],
+            attributes: ['admin_id'],
+        });
+
+        if (lastAdmin) {
+            const lastIdNumber = lastAdmin.admin_id - prefix * 1000;
+            const newIdNumber = lastIdNumber + 1;
+            instance.admin_id = prefix * 1000 + newIdNumber;
+        } else {
+            instance.admin_id = prefix * 1000 + 1;
+        }
+    }
 
     public static associate(models: any) {
         Admin.belongsTo(models.Role, {
