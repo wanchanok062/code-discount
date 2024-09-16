@@ -58,6 +58,17 @@ class AdminController {
             );
         }
     }
+    async login(req: Request, res: Response): Promise<Response> {
+        try {
+            const { user_name, password } = req.body;
+
+            const loginResponse = await adminService.login(user_name, password);
+            return success(res, 200, true, 'Login successful', loginResponse);
+        } catch (error) {
+            console.error('Error during login:', error);
+            return fail(res, 401, false, `${error}`);
+        }
+    }
 }
 
 export const adminController = new AdminController();

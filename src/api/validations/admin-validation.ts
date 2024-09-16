@@ -16,3 +16,8 @@ export const createAdminSchema = z.object({
         }),
     role_id: z.number().int().positive('Role ID must be a positive integer'),
 });
+
+export const loginSchema = z.object({
+    user_name: z.string().min(1, 'Username is required'),
+    password: z.string().min(1, 'Password is required'),
+});
