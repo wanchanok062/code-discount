@@ -2,7 +2,7 @@ import { Response } from 'express';
 
 type ResponseData = Record<string, any>;
 
-export const success = (
+const sendResponse = (
     res: Response,
     statusCode: number,
     success: boolean,
@@ -16,16 +16,20 @@ export const success = (
     });
 };
 
-export const fail = (
+export const success = (
     res: Response,
     statusCode: number,
-    success: boolean,
     message: string,
     data: ResponseData = {},
 ): Response => {
-    return res.status(statusCode).json({
-        success,
-        message,
-        data,
-    });
+    return sendResponse(res, statusCode, true, message, data);
+};
+
+export const fail = (
+    res: Response,
+    statusCode: number,
+    message: string,
+    data: ResponseData = {},
+): Response => {
+    return sendResponse(res, statusCode, false, message, data);
 };

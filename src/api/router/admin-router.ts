@@ -10,7 +10,11 @@ import { validateToken } from '../../middlewares/authMiddleware';
 const adminRouter = Router();
 
 adminRouter.get('/role', adminController.getRoles);
-adminRouter.get('/profile', adminController.getAdminProfile);
+adminRouter.get(
+    '/profile/:user_name',
+    validateToken,
+    adminController.getAdminProfile,
+);
 adminRouter.post('/', validate(createAdminSchema), adminController.createAdmin);
 adminRouter.post('/login', validate(loginSchema), adminController.login);
 

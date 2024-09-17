@@ -59,5 +59,27 @@ class AdminService {
             throw new Error(`Error creating admin: ${error.message}`);
         }
     }
+    async getAdminProfile(user_name: string) {
+        try {
+            const adminProfile = await Admin.findOne({
+                where: { user_name },
+                include: [
+                    {
+                        model: Role,
+                        attributes: ['role_name'],
+                    },
+                ],
+                attributes: {
+                    exclude: ['password', 'createdAt', 'updatedAt', 'role_id'],
+                },
+            });
+            if (!adminProfile) {
+                throw new Error('Admin not found');
+            }
+            return adminProfile;
+        } catch (error) {
+            throw new Error(`Error fetching admin profile: ${error}`);
+        }
+    }
 }
 export const adminService = new AdminService();
