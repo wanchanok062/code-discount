@@ -8,6 +8,7 @@ export const sequelize = new Sequelize({
     ...config,
     models: [path.join(__dirname, '../models')],
     logging: isDevelopment ? console.log : false,
+    timezone: '+07:00',
 });
 
 export async function initDatabase(mode: string): Promise<void> {

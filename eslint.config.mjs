@@ -4,22 +4,21 @@ import prettier from 'eslint-plugin-prettier';
 
 export default [
     {
-        files: ['**/*.{js,mjs,cjs,ts}'], // Define the files ESLint should check
+        files: ['**/*.{js,mjs,cjs,ts}'],
         languageOptions: {
-            globals: globals.node, // Use Node.js globals (e.g., process, Buffer)
-            parser: tsEslintParser, // Use TypeScript ESLint parser
+            globals: globals.node,
+            parser: tsEslintParser,
             parserOptions: {
-                ecmaVersion: 2020, // ECMAScript version 2020
-                sourceType: 'module', // Enable ECMAScript modules
-                project: './tsconfig.json', // Path to your TypeScript config
+                ecmaVersion: 2020,
+                sourceType: 'module',
+                project: './tsconfig.json',
             },
         },
         plugins: {
-            prettier: prettier, // Prettier plugin
+            prettier: prettier,
         },
         rules: {
-            // TypeScript-specific rules
-            'prettier/prettier': 'error', // Prettier rule for formatting
+            'prettier/prettier': 'error',
         },
     },
 ];

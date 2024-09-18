@@ -15,7 +15,12 @@ adminRouter.get(
     validateToken,
     adminController.getAdminProfile,
 );
-adminRouter.post('/', validate(createAdminSchema), adminController.createAdmin);
+adminRouter.post(
+    '/',
+    validateToken,
+    validate(createAdminSchema),
+    adminController.createAdmin,
+);
 adminRouter.post('/login', validate(loginSchema), adminController.login);
 
 export default adminRouter;
