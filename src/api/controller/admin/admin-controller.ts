@@ -47,7 +47,7 @@ class AdminController {
                 'Admin created successfully',
                 adminResponse,
             );
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error creating admin:', error);
             return fail(res, 500, 'An error occurred while creating the admin');
         }
