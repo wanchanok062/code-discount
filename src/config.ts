@@ -15,3 +15,4 @@ export const DatabaseUser = process.env.DB_USER;
 export const DatabasePassword = process.env.DB_PASSWORD;
 export const DB_DIALECT = process.env.DB_DIALECT;
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+export const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS;

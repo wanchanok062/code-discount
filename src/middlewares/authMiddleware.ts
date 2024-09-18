@@ -20,8 +20,8 @@ export const validateToken = (
         (req as any).user = decoded;
         next();
     } catch (error: any) {
-        if (error.message && error.message.includes('jwt expired')) {
-            return fail(res, 401, false, 'Token expired.', error);
+        if (error.message?.includes('jwt expired')) {
+            return fail(res, 401, 'Token expired.', error);
         } else {
             return res.status(400).json({ message: 'Invalid token.' });
         }

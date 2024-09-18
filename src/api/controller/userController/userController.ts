@@ -10,16 +10,16 @@ class UserController {
                 Lname: 'Doe',
                 email: 'anva@gmail.com',
             };
-            success(res, 200, true, 'User fetched successfully', user);
+            success(res, 200, 'User fetched successfully', user);
         } catch (error) {
             console.error('Error fetching user:', error);
-            fail(res, 400, false, 'All fields are required');
+            fail(res, 400, 'All fields are required');
         }
     }
     async createUser(req: Request, res: Response): Promise<Response> {
         try {
             const { userName, Fname, Lname, email, password } = req.body;
-            return success(res, 200, true, 'Create user successfully', {
+            return success(res, 200, 'Create user successfully', {
                 userName,
                 Fname,
                 Lname,
@@ -28,7 +28,7 @@ class UserController {
             });
         } catch (error) {
             console.error('Error creating user:', error);
-            return fail(res, 400, false, 'All fields are required');
+            return fail(res, 400, 'All fields are required');
         }
     }
 }
