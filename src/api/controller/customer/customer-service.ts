@@ -32,9 +32,16 @@ class CustomerService {
             if (existingCustomer) {
                 throw new Error('Username already exists');
             }
+            const role = await Role.findByPk(data.role_id);
+            if (!role) {
+                throw new Error('Role not found');
+            }
 
             const newCustomer = await Customer.create(data);
-            return newCustomer;
+            return {
+                customer_id: newCustomer.customer_id,
+                role: role.role_name,
+            };
         } catch (error: any) {
             throw new Error(`Error creating customer: ${error.message}`);
         }
