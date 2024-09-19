@@ -27,3 +27,14 @@ export const createCustomerSchema = z.object({
         .int()
         .positive({ message: 'Valid role_id is required' }),
 });
+
+export const updateCustomerSchema = z.object({
+    first_name: z
+        .string()
+        .min(1, { message: 'First name cannot be empty' })
+        .optional(),
+    last_name: z
+        .string()
+        .min(1, { message: 'Last name cannot be empty' })
+        .optional(),
+});
