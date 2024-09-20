@@ -7,11 +7,13 @@ import cors from 'cors';
 import helmet from 'helmet';
 import routes from './api/router';
 import 'reflect-metadata';
+import { limiter } from './utility/rateLimit';
 
 const mode = process.env.NODE_ENV;
 const app = express();
 
 app.use(cors());
+app.use(limiter);
 app.use(
     morgan(
         ':remote-addr :method :url :status :res[content-length] - :response-time ms',
