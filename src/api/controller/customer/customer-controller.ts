@@ -40,6 +40,44 @@ class CustomerController {
             );
         }
     }
+    async login(req: Request, res: Response): Promise<Response> {
+        try {
+            const { user_name, password } = req.body;
+
+            const loginResponse = await customerService.login(
+                user_name,
+                password,
+            );
+            return success(res, 200, 'Login successful', loginResponse);
+        } catch (error) {
+            console.error('Error during login:', error);
+            return fail(res, 401, `${error}`);
+        }
+    }
+    async updateCustomer(req: Request, res: Response): Promise<void> {
+        const { customer_id } = req.params;
+        const { first_name, last_name } = req.body;
+
+        try {
+            const updatedCustomer = await customerService.updateCustomer(
+                customer_id,
+                { first_name, last_name },
+            );
+            success(
+                res,
+                200,
+                'Customer updated successfully',
+                updatedCustomer || { message: 'Customer not found' },
+            );
+        } catch (error: any) {
+            console.error('Error updating customer:', error);
+            fail(
+                res,
+                500,
+                `An error occurred while updating the customer: ${error.message}`,
+            );
+        }
+    }
 }
 
 export const customerController = new CustomerController();

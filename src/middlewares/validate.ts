@@ -7,7 +7,10 @@ export const validate =
         const parseResult = schema.safeParse(req.body);
 
         if (!parseResult.success) {
-            return res.status(400).json(parseResult.error.errors);
+            const errors = parseResult.error.issues.map((issue) => ({
+                [issue.path[0]]: issue.message,
+            }));
+            return res.status(400).json({ errors });
         }
 
         req.body = parseResult.data;
