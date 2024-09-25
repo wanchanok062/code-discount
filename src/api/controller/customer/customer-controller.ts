@@ -19,12 +19,10 @@ class CustomerController {
         }
     }
     async createCustomer(req: Request, res: Response): Promise<void> {
-        const { first_name, last_name, user_name, password, role_id } =
-            req.body;
+        const { customer_name, user_name, password, role_id } = req.body;
         try {
             const newCustomer = await customerService.createCustomer({
-                first_name,
-                last_name,
+                customer_name,
                 user_name,
                 password,
                 role_id,
@@ -56,12 +54,12 @@ class CustomerController {
     }
     async updateCustomer(req: Request, res: Response): Promise<void> {
         const { customer_id } = req.params;
-        const { first_name, last_name } = req.body;
+        const { customer_name } = req.body;
 
         try {
             const updatedCustomer = await customerService.updateCustomer(
                 customer_id,
-                { first_name, last_name },
+                { customer_name },
             );
             success(
                 res,

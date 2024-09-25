@@ -20,29 +20,38 @@ class CustomerService {
         }
     }
     async createCustomer(data: {
-        first_name: string;
-        last_name: string;
+        customer_name: string;
         user_name: string;
         password: string;
         role_id: number;
     }) {
         try {
+            if (!data.user_name || !data.customer_name || !data.role_id) {
+                throw new Error(
+                    'Missing required fields: user_name, customer_name, or role_id',
+                );
+            }
+
             const existingCustomer = await Customer.findOne({
                 where: { user_name: data.user_name },
             });
             if (existingCustomer) {
                 throw new Error('Username already exists');
             }
+
             const role = await Role.findByPk(data.role_id);
             if (!role) {
                 throw new Error('Role not found');
             }
-            const { password } = data;
-            const hashedPassword = await hashPassword(password);
+
+            const hashedPassword = await hashPassword(data.password);
+
             const newCustomer = await Customer.create({
+                customer_id: '',
                 ...data,
                 password: hashedPassword,
             });
+
             return {
                 customer_id: newCustomer.customer_id,
                 role: role.role_name,
@@ -83,8 +92,7 @@ class CustomerService {
     async updateCustomer(
         customer_id: string,
         data: {
-            first_name?: string;
-            last_name?: string;
+            customer_name?: string;
         },
     ) {
         try {

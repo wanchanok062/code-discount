@@ -3,14 +3,10 @@ const passwordComplexityRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
 
 export const createCustomerSchema = z.object({
-    first_name: z
+    customer_name: z
         .string()
-        .min(1, { message: 'First name is required' })
-        .max(50, { message: 'First name cannot exceed 50 characters' }),
-    last_name: z
-        .string()
-        .min(1, { message: 'Last name is required' })
-        .max(50, { message: 'Last name cannot exceed 50 characters' }),
+        .min(1, { message: 'Customer name cannot be empty' })
+        .optional(),
     user_name: z
         .string()
         .min(1, { message: 'Username is required' })
@@ -29,12 +25,8 @@ export const createCustomerSchema = z.object({
 });
 
 export const updateCustomerSchema = z.object({
-    first_name: z
+    customer_name: z
         .string()
-        .min(1, { message: 'First name cannot be empty' })
-        .optional(),
-    last_name: z
-        .string()
-        .min(1, { message: 'Last name cannot be empty' })
+        .min(1, { message: 'Customer name cannot be empty' })
         .optional(),
 });
