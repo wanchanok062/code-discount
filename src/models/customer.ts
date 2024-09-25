@@ -5,33 +5,24 @@ import {
     DataType,
     ForeignKey,
     BelongsTo,
+    BeforeCreate,
+    CreatedAt,
+    UpdatedAt,
 } from 'sequelize-typescript';
+import { v4 as uuidv4 } from 'uuid';
 import { Role } from './role';
 
 @Table({
-    timestamps: true,
     tableName: 'customers',
+    timestamps: true,
 })
 export class Customer extends Model {
     @Column({
-        type: DataType.UUID,
-        defaultValue: DataType.UUIDV4,
+        type: DataType.STRING,
         allowNull: false,
         primaryKey: true,
     })
     customer_id!: string;
-
-    @Column({
-        type: DataType.STRING(50),
-        allowNull: false,
-    })
-    first_name!: string;
-
-    @Column({
-        type: DataType.STRING(50),
-        allowNull: false,
-    })
-    last_name!: string;
 
     @Column({
         type: DataType.STRING(50),
@@ -41,10 +32,16 @@ export class Customer extends Model {
     user_name!: string;
 
     @Column({
-        type: DataType.STRING(50),
-        allowNull: false,
+        type: DataType.STRING,
+        allowNull: true,
     })
     password!: string;
+
+    @Column({
+        type: DataType.STRING(100),
+        allowNull: false,
+    })
+    customer_name!: string;
 
     @ForeignKey(() => Role)
     @Column({
@@ -56,19 +53,28 @@ export class Customer extends Model {
     @BelongsTo(() => Role)
     role!: Role;
 
+    @CreatedAt
     @Column({
         type: DataType.DATE,
-        defaultValue: DataType.NOW,
         allowNull: false,
+        defaultValue: DataType.NOW,
     })
     createdAt!: Date;
 
+    @UpdatedAt
     @Column({
         type: DataType.DATE,
-        defaultValue: DataType.NOW,
         allowNull: false,
+        defaultValue: DataType.NOW,
     })
     updatedAt!: Date;
+
+    @BeforeCreate
+    static async setCustomerId(instance: Customer) {
+        if (!instance.customer_id) {
+            instance.customer_id = uuidv4();
+        }
+    }
 }
 
 export default Customer;

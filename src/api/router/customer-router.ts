@@ -22,7 +22,7 @@ customerRouter.post(
 customerRouter.post('/login', customerController.login);
 customerRouter.patch(
     '/:customer_id',
-    validateToken,
+    // validateToken,
     validate(updateCustomerSchema),
     customerController.updateCustomer,
 );

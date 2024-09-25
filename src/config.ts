@@ -16,3 +16,7 @@ export const DatabasePassword = process.env.DB_PASSWORD;
 export const DB_DIALECT = process.env.DB_DIALECT;
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 export const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS;
+export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+export const GOOGLE_CALLBACK_URL = process.env.GOOGLE_CALLBACK_URL;
+export const SESSION_SECRET = process.env.SESSION_SECRET;
