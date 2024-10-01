@@ -52,17 +52,17 @@ class AdminService {
             const token = generateToken(admin.admin_id, admin.user_name);
             return {
                 token,
-                user_name: admin.user_name,
+                admin_id: admin.admin_id,
                 role: admin.role?.role_name,
             };
         } catch (error: any) {
             throw new Error(`Error creating admin: ${error.message}`);
         }
     }
-    async getAdminProfile(user_name: string) {
+    async getAdminProfile(admin_id: string | number) {
         try {
             const adminProfile = await Admin.findOne({
-                where: { user_name },
+                where: { admin_id },
                 include: [
                     {
                         model: Role,
@@ -79,6 +79,54 @@ class AdminService {
             return adminProfile;
         } catch (error) {
             throw new Error(`Error fetching admin profile: ${error}`);
+        }
+    }
+    async updateAdmin(
+        admin_id: string | number,
+        first_name: string,
+        last_name: string,
+    ) {
+        try {
+            const admin = await Admin.findByPk(admin_id);
+
+            if (!admin) {
+                throw new Error('Admin not found');
+            }
+
+            admin.first_name = first_name;
+            admin.last_name = last_name;
+            await admin.save();
+
+            return {
+                id: admin.admin_id,
+                user_name: admin.user_name,
+                first_name: admin.first_name,
+                last_name: admin.last_name,
+            };
+        } catch (error: any) {
+            throw new Error(`Error updating admin: ${error.message}`);
+        }
+    }
+    async deleteAdmin(admin_id: string | number, password: string) {
+        try {
+            const admin = await Admin.findByPk(admin_id);
+
+            if (!admin) {
+                throw new Error('Admin not found');
+            }
+
+            const isPasswordValid = await comparePasswords(
+                password,
+                admin.password,
+            );
+
+            if (!isPasswordValid) {
+                throw new Error('Invalid password');
+            }
+
+            await admin.destroy();
+        } catch (error: any) {
+            throw new Error(`Error deleting admin: ${error.message}`);
         }
     }
 }

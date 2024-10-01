@@ -32,15 +32,12 @@ passport.use(
                 }
 
                 await authService.saveGoogleUser(userProfile);
+                const { emails, id } = userProfile;
 
-                const token = generateToken(
-                    userProfile.displayName,
-                    userProfile.emails,
-                );
+                const token = generateToken(id, emails);
 
                 return done(null, {
-                    email: userProfile.emails,
-                    customer_name: userProfile.displayName,
+                    customer_id: id,
                     token,
                 });
             } catch (error) {

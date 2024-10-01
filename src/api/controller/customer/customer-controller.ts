@@ -3,10 +3,17 @@ import { success, fail } from '../../../utility/responseHandler';
 import { customerService } from './customer-service';
 
 class CustomerController {
-    async getCustomerProfile(req: Request, res: Response): Promise<void> {
-        const { customer_id } = req.params;
+    async getCustomerProfile(req: Request, res: Response) {
+        const { customer_id: customerIdFromParams } = req.params;
+        const customerIdFromJWT = (req as any).user.customer_id;
+
+        if (customerIdFromJWT !== customerIdFromParams) {
+            return fail(res, 403, 'Data not found !!');
+        }
+
         try {
-            const customer = await customerService.getCustomerById(customer_id);
+            const customer =
+                await customerService.getCustomerById(customerIdFromParams);
 
             if (customer) {
                 success(res, 200, 'Customer found', customer);

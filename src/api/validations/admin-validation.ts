@@ -21,3 +21,12 @@ export const loginSchema = z.object({
     user_name: z.string().min(1, 'Username is required'),
     password: z.string().min(1, 'Password is required'),
 });
+
+export const updateAdminSchema = z.object({
+    first_name: z.string().min(1, 'First name is required'),
+    last_name: z.string().min(1, 'Last name is required'),
+});
+
+export const deleteAdminSchema = z.object({
+    password: z.string().min(1, 'Password is required'),
+});
