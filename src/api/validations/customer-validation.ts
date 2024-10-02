@@ -30,3 +30,9 @@ export const updateCustomerSchema = z.object({
         .min(1, { message: 'Customer name cannot be empty' })
         .optional(),
 });
+
+export const deleteCustomerSchema = z.object({
+    password: z
+        .string()
+        .min(1, { message: 'Password is required and cannot be empty' }),
+});

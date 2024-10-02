@@ -4,6 +4,7 @@ import { validate } from '../../middlewares/validate';
 import {
     createCustomerSchema,
     updateCustomerSchema,
+    deleteCustomerSchema,
 } from '../validations/customer-validation';
 import { validateToken } from '../../middlewares/authMiddleware';
 
@@ -22,9 +23,15 @@ customerRouter.post(
 customerRouter.post('/login', customerController.login);
 customerRouter.patch(
     '/:customer_id',
-    // validateToken,
+    validateToken,
     validate(updateCustomerSchema),
     customerController.updateCustomer,
+);
+customerRouter.delete(
+    '/profile/:customer_id',
+    validateToken,
+    validate(deleteCustomerSchema),
+    customerController.deleteCustomer,
 );
 
 export default customerRouter;

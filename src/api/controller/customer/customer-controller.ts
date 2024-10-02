@@ -5,10 +5,10 @@ import { customerService } from './customer-service';
 class CustomerController {
     async getCustomerProfile(req: Request, res: Response) {
         const { customer_id: customerIdFromParams } = req.params;
-        const customerIdFromJWT = (req as any).user.customer_id;
+        const customerIdFromJWT = (req as any).user.id;
 
         if (customerIdFromJWT !== customerIdFromParams) {
-            return fail(res, 403, 'Data not found !!');
+            return fail(res, 403, 'Unauthorized to get this profile');
         }
 
         try {
@@ -20,9 +20,8 @@ class CustomerController {
             } else {
                 fail(res, 404, 'Customer not found');
             }
-        } catch (error) {
-            console.error('Error fetching customer:', error);
-            fail(res, 500, 'An error occurred while fetching the customer');
+        } catch (error: any) {
+            fail(res, 500, error.message);
         }
     }
     async createCustomer(req: Request, res: Response): Promise<void> {
@@ -59,13 +58,17 @@ class CustomerController {
             return fail(res, 401, `${error}`);
         }
     }
-    async updateCustomer(req: Request, res: Response): Promise<void> {
-        const { customer_id } = req.params;
+    async updateCustomer(req: Request, res: Response) {
+        const { customer_id: customerIdFromParams } = req.params;
         const { customer_name } = req.body;
+        const customerIdFromJWT = (req as any).user.id;
+        if (customerIdFromJWT !== customerIdFromParams) {
+            return fail(res, 403, 'Unauthorized to update this profile');
+        }
 
         try {
             const updatedCustomer = await customerService.updateCustomer(
-                customer_id,
+                customerIdFromParams,
                 { customer_name },
             );
             success(
@@ -80,6 +83,31 @@ class CustomerController {
                 res,
                 500,
                 `An error occurred while updating the customer: ${error.message}`,
+            );
+        }
+    }
+    async deleteCustomer(req: Request, res: Response) {
+        const { customer_id: customerIdFromParams } = req.params;
+        const { password } = req.body;
+
+        const customerIdFromJWT = (req as any).user.id;
+
+        if (customerIdFromJWT !== customerIdFromParams) {
+            return fail(res, 403, 'Unauthorized to delete this profile');
+        }
+
+        try {
+            const result = await customerService.deleteCustomer(
+                customerIdFromParams,
+                password,
+            );
+            success(res, 200, result.message);
+        } catch (error: any) {
+            console.error('Error deleting customer:', error);
+            fail(
+                res,
+                500,
+                `An error occurred while deleting the customer: ${error.message}`,
             );
         }
     }

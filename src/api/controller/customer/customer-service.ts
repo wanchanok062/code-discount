@@ -119,6 +119,29 @@ class CustomerService {
             throw new Error(`Error updating customer: ${error.message}`);
         }
     }
+    async deleteCustomer(customer_id: string, password: string) {
+        try {
+            const customer = await Customer.findByPk(customer_id, {
+                attributes: ['customer_id', 'password'],
+            });
+
+            if (!customer) {
+                throw new Error('Customer not found');
+            }
+            const isPasswordValid = await comparePasswords(
+                password,
+                customer.password,
+            );
+            if (!isPasswordValid) {
+                throw new Error('Invalid password');
+            }
+
+            await customer.destroy();
+            return { message: 'Customer deleted successfully' };
+        } catch (error: any) {
+            throw new Error(`Error deleting customer: ${error.message}`);
+        }
+    }
 }
 
 export const customerService = new CustomerService();
