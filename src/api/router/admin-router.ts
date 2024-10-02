@@ -4,14 +4,15 @@ import { validate } from '../../middlewares/validate';
 import {
     createAdminSchema,
     loginSchema,
+    updateAdminSchema,
+    deleteAdminSchema,
 } from '../validations/admin-validation';
 import { validateToken } from '../../middlewares/authMiddleware';
 
 const adminRouter = Router();
 
-adminRouter.get('/role', adminController.getRoles);
 adminRouter.get(
-    '/profile/:user_name',
+    '/profile/:admin_id',
     validateToken,
     adminController.getAdminProfile,
 );
@@ -22,5 +23,16 @@ adminRouter.post(
     adminController.createAdmin,
 );
 adminRouter.post('/login', validate(loginSchema), adminController.login);
-
+adminRouter.patch(
+    '/profile/:admin_id',
+    validateToken,
+    validate(updateAdminSchema),
+    adminController.updateAdmin,
+);
+adminRouter.delete(
+    '/profile/:admin_id',
+    validateToken,
+    validate(deleteAdminSchema),
+    adminController.deleteAdmin,
+);
 export default adminRouter;

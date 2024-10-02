@@ -4,21 +4,10 @@ import { Role } from '../../../models/role';
 
 import { adminService } from '../../controller/admin/admin-service';
 class AdminController {
-    async getRoles(req: Request, res: Response): Promise<void> {
-        try {
-            const roles = await Role.findAll({
-                attributes: ['role_id', 'role_name'],
-            });
-            success(res, 200, 'Fetched all role successfully', roles);
-        } catch (error) {
-            console.error('Error fetching role :', error);
-            fail(res, 400, 'All fields are required');
-        }
-    }
     async getAdminProfile(req: Request, res: Response): Promise<void> {
         try {
-            const { user_name } = req.params;
-            const adminProfile = await adminService.getAdminProfile(user_name);
+            const { admin_id } = req.params;
+            const adminProfile = await adminService.getAdminProfile(admin_id);
             success(
                 res,
                 200,
@@ -61,6 +50,49 @@ class AdminController {
         } catch (error) {
             console.error('Error during login:', error);
             return fail(res, 401, `${error}`);
+        }
+    }
+    async updateAdmin(req: Request, res: Response): Promise<Response> {
+        try {
+            const { admin_id } = req.params;
+            const { first_name, last_name } = req.body;
+
+            if (admin_id !== (req as any).user.id.toString()) {
+                return fail(res, 403, 'Unauthorized to edit this profile');
+            }
+
+            const updatedAdmin = await adminService.updateAdmin(
+                admin_id,
+                first_name,
+                last_name,
+            );
+
+            return success(
+                res,
+                200,
+                'Admin profile updated successfully',
+                updatedAdmin,
+            );
+        } catch (error: any) {
+            console.error('Error updating admin:', error);
+            return fail(res, 500, `Error updating admin: ${error.message}`);
+        }
+    }
+    async deleteAdmin(req: Request, res: Response): Promise<Response> {
+        try {
+            const { admin_id } = req.params;
+            const { password } = req.body;
+
+            if (admin_id !== (req as any).user.id.toString()) {
+                return fail(res, 403, 'Unauthorized to edit this profile');
+            }
+
+            await adminService.deleteAdmin(admin_id, password);
+
+            return success(res, 200, 'Admin deleted successfully');
+        } catch (error: any) {
+            console.error('Error deleting admin:', error);
+            return fail(res, 500, `Error deleting admin: ${error.message}`);
         }
     }
 }

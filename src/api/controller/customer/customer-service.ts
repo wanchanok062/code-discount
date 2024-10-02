@@ -64,6 +64,7 @@ class CustomerService {
         try {
             const customer = await Customer.findOne({
                 where: { user_name },
+                attributes: ['customer_id', 'user_name', 'password'],
                 include: [{ model: Role, attributes: ['role_name'] }],
             });
             if (!customer) {
@@ -82,7 +83,7 @@ class CustomerService {
             );
             return {
                 token,
-                user_name: customer.user_name,
+                customer_id: customer.customer_id,
                 role: customer.role?.role_name,
             };
         } catch (error: any) {
