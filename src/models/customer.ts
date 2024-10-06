@@ -59,7 +59,7 @@ export class Customer extends Model {
         allowNull: false,
         defaultValue: DataType.NOW,
     })
-    createdAt!: Date;
+    created_at!: Date;
 
     @UpdatedAt
     @Column({
@@ -67,7 +67,7 @@ export class Customer extends Model {
         allowNull: false,
         defaultValue: DataType.NOW,
     })
-    updatedAt!: Date;
+    updated_at!: Date;
 
     @BeforeCreate
     static async setCustomerId(instance: Customer) {

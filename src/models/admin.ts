@@ -13,6 +13,8 @@ import { Role } from './role';
 @Table({
     tableName: 'admin',
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
 })
 export class Admin extends Model {
     @PrimaryKey

@@ -15,7 +15,10 @@ class AdminService {
             if (!role) {
                 throw new Error('Role not found');
             }
-
+            const existingAdmin = await Admin.findOne({ where: { user_name } });
+            if (existingAdmin) {
+                throw new Error('Please choose a different user name.');
+            }
             const hashedPassword = await hashPassword(password);
             const newAdmin = await Admin.create({
                 first_name,
@@ -30,7 +33,7 @@ class AdminService {
                 role: role.role_name,
             };
         } catch (error: any) {
-            throw new Error(`Error creating admin: ${error.message}`);
+            throw new Error(`creating admin: ${error.message}`);
         }
     }
     async login(user_name: string, password: string) {
@@ -70,7 +73,12 @@ class AdminService {
                     },
                 ],
                 attributes: {
-                    exclude: ['password', 'createdAt', 'updatedAt', 'role_id'],
+                    exclude: [
+                        'password',
+                        'created_at',
+                        'updated_at',
+                        'role_id',
+                    ],
                 },
             });
             if (!adminProfile) {

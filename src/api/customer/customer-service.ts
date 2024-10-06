@@ -7,7 +7,12 @@ class CustomerService {
         try {
             const customer = await Customer.findByPk(id, {
                 attributes: {
-                    exclude: ['password', 'createdAt', 'updatedAt', 'role_id'],
+                    exclude: [
+                        'password',
+                        'created_at',
+                        'updated_at',
+                        'role_id',
+                    ],
                 },
                 include: [{ model: Role, attributes: ['role_name'] }],
             });
@@ -106,8 +111,8 @@ class CustomerService {
                 attributes: {
                     exclude: [
                         'password',
-                        'createdAt',
-                        'updatedAt',
+                        'created_at',
+                        'updated_at',
                         'role_id',
                         'customer_id',
                     ],

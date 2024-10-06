@@ -36,13 +36,8 @@ class AdminController {
                 adminResponse,
             );
         } catch (error: any) {
-            console.error('Error creating admin:', error);
-            return fail(
-                res,
-                500,
-                'An error occurred while creating the admin',
-                error.message,
-            );
+            console.error(error);
+            return fail(res, 500, `${error}`);
         }
     }
     async login(req: Request, res: Response): Promise<Response> {

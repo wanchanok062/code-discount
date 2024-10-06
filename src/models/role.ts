@@ -3,6 +3,8 @@ import { Table, Model, Column, DataType } from 'sequelize-typescript';
 @Table({
     timestamps: true,
     tableName: 'role',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
 })
 export class Role extends Model {
     @Column({
@@ -24,13 +26,13 @@ export class Role extends Model {
         allowNull: false,
         defaultValue: DataType.NOW,
     })
-    createdAt!: Date;
+    created_at!: Date;
 
     @Column({
         type: DataType.DATE,
         allowNull: false,
         defaultValue: DataType.NOW,
     })
-    updatedAt!: Date;
+    updated_at!: Date;
 }
 export default Role;
