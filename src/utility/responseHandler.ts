@@ -29,7 +29,11 @@ export const fail = (
     res: Response,
     statusCode: number,
     message: string,
-    data: ResponseData = {},
+    errorDetails?: any,
 ): Response => {
-    return sendResponse(res, statusCode, false, message, data);
+    return res.status(statusCode).json({
+        success: false,
+        message,
+        ...(errorDetails && { error: errorDetails }),
+    });
 };

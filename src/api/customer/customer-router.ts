@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { customerController } from '../controller/customer/customer-controller';
+import { customerController } from '../customer/customer-controller';
 import { validate } from '../../middlewares/validate';
 import {
     createCustomerSchema,
     updateCustomerSchema,
     deleteCustomerSchema,
-} from '../validations/customer-validation';
+} from '../customer/customer-validation';
 import { validateToken } from '../../middlewares/authMiddleware';
 
 const customerRouter = Router();

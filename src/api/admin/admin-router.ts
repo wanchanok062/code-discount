@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { adminController } from '../controller/admin/admin-controller';
+import { adminController } from '../admin/admin-controller';
 import { validate } from '../../middlewares/validate';
 import {
     createAdminSchema,
     loginSchema,
     updateAdminSchema,
     deleteAdminSchema,
-} from '../validations/admin-validation';
+} from '../admin/admin-validation';
 import { validateToken } from '../../middlewares/authMiddleware';
 
 const adminRouter = Router();
@@ -18,7 +18,7 @@ adminRouter.get(
 );
 adminRouter.post(
     '/',
-    validateToken,
+    // validateToken,
     validate(createAdminSchema),
     adminController.createAdmin,
 );

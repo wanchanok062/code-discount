@@ -1,7 +1,7 @@
-import { Customer } from '../../../models/customer';
-import { Role } from '../../../models/role';
-import { generateToken } from '../../auth/generateToken';
-import { hashPassword, comparePasswords } from '../../auth/passwordUtils';
+import { Customer } from '../../models/customer';
+import { Role } from '../../models/role';
+import { generateToken } from '../auth/generateToken';
+import { hashPassword, comparePasswords } from '../auth/passwordUtils';
 class CustomerService {
     async getCustomerById(id: string) {
         try {

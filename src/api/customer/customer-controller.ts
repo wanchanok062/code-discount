@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { success, fail } from '../../../utility/responseHandler';
-import { customerService } from './customer-service';
+import { success, fail } from '../../utility/responseHandler';
+import { customerService } from '../customer/customer-service';
 
 class CustomerController {
     async getCustomerProfile(req: Request, res: Response) {
         const { customer_id: customerIdFromParams } = req.params;
-        const customerIdFromJWT = (req as any).user.id;
+        const customerIdFromJWT = (req as any).user?.id;
 
         if (customerIdFromJWT !== customerIdFromParams) {
             return fail(res, 403, 'Unauthorized to get this profile');

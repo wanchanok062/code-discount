@@ -1,7 +1,7 @@
-import { Admin } from '../../../models/admin';
-import { Role } from '../../../models/role';
-import { hashPassword, comparePasswords } from '../../auth/passwordUtils';
-import { generateToken } from '../../auth/generateToken';
+import { Admin } from '../../models/admin';
+import { Role } from '../../models/role';
+import { hashPassword, comparePasswords } from '../auth/passwordUtils';
+import { generateToken } from '../auth/generateToken';
 class AdminService {
     async createAdmin(
         first_name: string,

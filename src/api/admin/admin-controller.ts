@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
-import { success, fail } from '../../../utility/responseHandler';
-import { Role } from '../../../models/role';
+import { success, fail } from '../../utility/responseHandler';
 
-import { adminService } from '../../controller/admin/admin-service';
+import { adminService } from '../admin/admin-service';
 class AdminController {
-    async getAdminProfile(req: Request, res: Response): Promise<void> {
+    async getAdminProfile(req: Request, res: Response) {
         try {
             const { admin_id } = req.params;
             const adminProfile = await adminService.getAdminProfile(admin_id);
@@ -14,9 +13,9 @@ class AdminController {
                 'Fetched admin profile successfully',
                 adminProfile,
             );
-        } catch (error) {
-            console.error('Error fetching role :', error);
-            fail(res, 400, 'All fields are required');
+        } catch (error: any) {
+            console.error('Error fetching :', error.message);
+            return fail(res, 500, 'Admin not found', error.message);
         }
     }
     async createAdmin(req: Request, res: Response): Promise<Response> {
@@ -38,7 +37,12 @@ class AdminController {
             );
         } catch (error: any) {
             console.error('Error creating admin:', error);
-            return fail(res, 500, 'An error occurred while creating the admin');
+            return fail(
+                res,
+                500,
+                'An error occurred while creating the admin',
+                error.message,
+            );
         }
     }
     async login(req: Request, res: Response): Promise<Response> {
