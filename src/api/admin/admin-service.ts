@@ -52,11 +52,12 @@ class AdminService {
             if (!isPasswordValid) {
                 throw new Error('Invalid username or password');
             }
-            const token = generateToken(admin.admin_id, admin.user_name);
+            const role = admin.role?.role_name;
+            const token = generateToken(admin.admin_id, admin.user_name, role);
             return {
                 token,
                 admin_id: admin.admin_id,
-                role: admin.role?.role_name,
+                role,
             };
         } catch (error: any) {
             throw new Error(`Error creating admin: ${error.message}`);
