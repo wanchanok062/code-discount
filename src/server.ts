@@ -10,12 +10,14 @@ import 'reflect-metadata';
 import { limiter } from './utility/rateLimit';
 import session from 'express-session';
 import passport from 'passport';
+import cookieParser from 'cookie-parser';
 import './api/auth-google/utility/google-strategy';
 
 const mode = process.env.NODE_ENV;
 const app = express();
 
 app.use(cors());
+app.use(cookieParser());
 app.use(limiter);
 app.use(
     morgan(
