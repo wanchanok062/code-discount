@@ -36,7 +36,7 @@ export class CodeDiscount extends Model {
         type: DataType.INTEGER,
         allowNull: false,
     })
-    code_discount_category!: number;
+    code_discount_category_id!: number;
 
     @Column({
         type: DataType.FLOAT,
